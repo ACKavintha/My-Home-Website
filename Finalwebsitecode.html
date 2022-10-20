@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MY ROOM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta http-equiv="refresh" content="90">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <center>
+        <div id="clock">
+            <canvas id="canvas" width="100" height="100" </canvas>
+
+                <script>
+                    var canvas = document.getElementById("canvas");
+                    var ctx = canvas.getContext("2d");
+                    var radius = canvas.height / 2;
+                    ctx.translate(radius, radius);
+                    radius = radius * 0.90
+                    setInterval(drawClock, 1000);
+
+                    function drawClock() {
+                        drawFace(ctx, radius);
+                        drawNumbers(ctx, radius);
+                        drawTime(ctx, radius);
+                    }
+
+                    function drawFace(ctx, radius) {
+                        var grad;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, radius, 0, 2 * Math.PI);
+                        ctx.fillStyle = 'black';
+                        ctx.fill();
+                        grad = ctx.createRadialGradient(0, 0, radius * 0.95, 0, 0, radius * 1.05);
+                        grad.addColorStop(0, 'white');
+                        grad.addColorStop(0.5, 'white');
+                        grad.addColorStop(1, 'white');
+                        ctx.strokeStyle = grad;
+                        ctx.lineWidth = radius * 0.1;
+                        ctx.stroke();
+                        ctx.beginPath();
+                        ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fill();
+                    }
+
+                    function drawNumbers(ctx, radius) {
+                        var ang;
+                        var num;
+                        ctx.font = radius * 0.15 + "px arial";
+                        ctx.textBaseline = "middle";
+                        ctx.textAlign = "center";
+                        for (num = 1; num < 13; num++) {
+                            ang = num * Math.PI / 6;
+                            ctx.rotate(ang);
+                            ctx.translate(0, -radius * 0.85);
+                            ctx.rotate(-ang);
+                            ctx.fillText(num.toString(), 0, 0);
+                            ctx.rotate(ang);
+                            ctx.translate(0, radius * 0.85);
+                            ctx.rotate(-ang);
+                        }
+                    }
+
+                    function drawTime(ctx, radius) {
+                        var now = new Date();
+                        var hour = now.getHours();
+                        var minute = now.getMinutes();
+                        var second = now.getSeconds();
+                        //hour
+                        hour = hour % 12;
+                        hour = (hour * Math.PI / 6) +
+                            (minute * Math.PI / (6 * 60)) +
+                            (second * Math.PI / (360 * 60));
+                        drawHand(ctx, hour, radius * 0.5, radius * 0.07);
+                        //minute
+                        minute = (minute * Math.PI / 30) + (second * Math.PI / (30 * 60));
+                        drawHand(ctx, minute, radius * 0.8, radius * 0.07);
+                        // second
+                        second = (second * Math.PI / 30);
+                        drawHand(ctx, second, radius * 0.9, radius * 0.02);
+                    }
+
+                    function drawHand(ctx, pos, length, width) {
+                        ctx.beginPath();
+                        ctx.lineWidth = width;
+                        ctx.lineCap = "round";
+                        ctx.moveTo(0, 0);
+                        ctx.rotate(pos);
+                        ctx.lineTo(0, -length);
+                        ctx.stroke();
+                        ctx.rotate(-pos);
+                    }
+                </script>
+        </div>
+    </center>
+    <div id="name">
+        <h1>Hello, Kavintha!</h1>
+
+
+
+        <div class="sidenav">
+
+            <center>
+                <a
+                    href="file:///C:/Users/HP/Desktop/Kavintha/SMART%20HOME%20AMD%20PCB%20DESING%20WORKSHOP/WEBSITE/homepage.html">
+                    <button id="back"><i class="material-icons w3-xxlarge">home</i><br>HOME</button>
+                </a>
+            </center>
+
+            <center>
+                <button id="devices"><i class="material-icons  w3-xxlarge">&#xe1b1;</i></i><br>DEVICES</button>
+            </center>
+
+
+            <center>
+                <button id="devices"><i class="fa w3-xxlarge">&#xf06e;</i><br>LAST SEEN</button>
+            </center>
+
+            <center>
+                <button id="devices"><i class="fa w3-xxlarge">&#xf095;</i><br>CONTACT</button>
+            </center>
+
+        </div>
+
+        <div id="temp">
+            <i id="tempi" class="fa w3-xxlarge">&#xf2c7;<h2 id="tempw">Temperature</h2></i>
+            <center>
+                <h1 id="temprs">
+                    °C
+                </h1>
+            </center>
+        </div>
+
+        <div id="temp1">
+            <i id="tempi" class="fa w3-xxlarge">&#xf2dc;<h2 id="tempw">Humidity</h2></i>
+            <center>
+                <h1 id="temprs">
+                    %
+                </h1>
+            </center>
+        </div>
+
+        <div id="temp2">
+            <i id="tempi" class="fa w3-xxlarge">&#xf185;<h2 id="tempw">Weather</h2></i>
+            <center>
+                <h1 id="temprs">
+
+                </h1>
+            </center>
+        </div>
+
+        <div id="buttons">
+            <center>
+                <button id="buttonon" class="switch1c"><i class="fa w3-xxlarge">&#xf0eb;</i><br>Switch 1</button>
+
+                <script>
+
+                    (function () {
+
+                        var delay;
+
+                        var longpress = 500;
+
+                        var listItems = document.getElementsByClassName('switch1c');
+
+                        var listItem;
+
+                        for (var i = 0, j = listItems.length; i < j; i++) {
+                            listItem = listItems[i];
+
+                            listItem.addEventListener('mousedown', function (e) {
+                                var _this = this;
+                                delay = setTimeout(check, longpress);
+
+                                function check() {
+                                    _this.classList.add('is-selected');
+                                    window.open("switch1off");
+                                }
+
+                            }, true);
+
+                            listItem.addEventListener('mouseup', function (e) {
+                                // On mouse up, we know it is no longer a longpress
+                                clearTimeout(delay);
+                                window.open("switch1on");
+                            });
+
+                            listItem.addEventListener('mouseout', function (e) {
+                                clearTimeout(delay);
+
+                            });
+                        }
+                    }());
+
+                    window.onload = function () {
+                        window.setTimeout(setDisabled, 5000);
+                    }
+                    function setDisabled() {
+                        document.getElementsByClassName('switch1c').disabled = false;
+                    }
+                </script>
+
+
+                <button id="buttonon" class="switch2c"><i class="fa w3-xxlarge">&#xf0eb;</i><br>Switch 2</button>
+                <script>
+
+                    (function () {
+
+                        var delay;
+
+                        var longpress = 500;
+
+                        var listItems = document.getElementsByClassName('switch2c');
+
+                        var listItem;
+
+                        for (var i = 0, j = listItems.length; i < j; i++) {
+                            listItem = listItems[i];
+
+                            listItem.addEventListener('mousedown', function (e) {
+                                var _this = this;
+                                delay = setTimeout(check, longpress);
+
+                                function check() {
+                                    _this.classList.add('is-selected');
+                                    window.open("switch2off");
+                                }
+
+                            }, true);
+
+                            listItem.addEventListener('mouseup', function (e) {
+                                // On mouse up, we know it is no longer a longpress
+                                clearTimeout(delay);
+                                window.open("switch2on");
+                            });
+
+                            listItem.addEventListener('mouseout', function (e) {
+                                clearTimeout(delay);
+
+                            });
+                        }
+                    }());
+                </script>
+                <button id="buttonon" class="switch3c"><i class="fa w3-xxlarge">&#xf0eb;</i><br>Switch 3</button>
+                <script>
+
+                    (function () {
+
+                        var delay;
+
+                        var longpress = 500;
+
+                        var listItems = document.getElementsByClassName('switch3c');
+
+                        var listItem;
+
+                        for (var i = 0, j = listItems.length; i < j; i++) {
+                            listItem = listItems[i];
+
+                            listItem.addEventListener('mousedown', function (e) {
+                                var _this = this;
+                                delay = setTimeout(check, longpress);
+
+                                function check() {
+                                    _this.classList.add('is-selected');
+                                    window.open("switch3off");
+                                }
+
+                            }, true);
+
+                            listItem.addEventListener('mouseup', function (e) {
+                                // On mouse up, we know it is no longer a longpress
+                                clearTimeout(delay);
+                                window.open("switch3on");
+                            });
+
+                            listItem.addEventListener('mouseout', function (e) {
+                                clearTimeout(delay);
+
+                            });
+                        }
+                    }());
+                </script>
+                <button id="buttonon" class="switch4c"><i class="fa w3-xxlarge">&#xf0eb;</i><br>Switch 4</button>
+                <script>
+
+                    (function () {
+
+                        var delay;
+
+                        var longpress = 500;
+
+                        var listItems = document.getElementsByClassName('switch4c');
+
+                        var listItem;
+
+                        for (var i = 0, j = listItems.length; i < j; i++) {
+                            listItem = listItems[i];
+
+                            listItem.addEventListener('mousedown', function (e) {
+                                var _this = this;
+                                delay = setTimeout(check, longpress);
+
+                                function check() {
+                                    _this.classList.add('is-selected');
+                                    window.open("switch4off");
+                                }
+
+                            }, true);
+
+                            listItem.addEventListener('mouseup', function (e) {
+                                // On mouse up, we know it is no longer a longpress
+                                clearTimeout(delay);
+                                window.open("switch4on");
+                            });
+
+                            listItem.addEventListener('mouseout', function (e) {
+                                clearTimeout(delay);
+
+                            });
+                        }
+                    }());
+                </script>
+            </center>
+        </div>
+
+
+
+        <div id="buttons1">
+            <center><button id="buttonon1" class="mainbtn"><i class="fa w3-xxlarge">&#xf0eb;</i><br>MAIN LIGHT</button>
+            </center>
+        </div>
+
+        <script>
+
+            (function () {
+
+                var delay;
+
+                var longpress = 500;
+
+                var listItems = document.getElementsByClassName('mainbtn');
+
+                var listItem;
+
+                for (var i = 0, j = listItems.length; i < j; i++) {
+                    listItem = listItems[i];
+
+                    listItem.addEventListener('mousedown', function (e) {
+                        var _this = this;
+                        delay = setTimeout(check, longpress);
+
+                        function check() {
+                            _this.classList.add('is-selected');
+                            window.open("mainlightoff");
+                        }
+
+                    }, true);
+
+                    listItem.addEventListener('mouseup', function (e) {
+                        // On mouse up, we know it is no longer a longpress
+                        clearTimeout(delay);
+                        window.open("mainlighton");
+                    });
+
+                    listItem.addEventListener('mouseout', function (e) {
+                        clearTimeout(delay);
+
+                    });
+                }
+            }());
+        </script>
+
+
+
+
+
+
+
+
+        <div id="buttons2">
+            <center><button id="plug" class="plug1c"><i class="fa w3-xxlarge">&#xf1e6;</i>Plug 1 </button>
+                <script>
+
+                    (function () {
+
+                        var delay;
+
+                        var longpress = 500;
+
+                        var listItems = document.getElementsByClassName('plug1c');
+
+                        var listItem;
+
+                        for (var i = 0, j = listItems.length; i < j; i++) {
+                            listItem = listItems[i];
+
+                            listItem.addEventListener('mousedown', function (e) {
+                                var _this = this;
+                                delay = setTimeout(check, longpress);
+
+                                function check() {
+                                    _this.classList.add('is-selected');
+                                    window.open("plug1off");
+                                }
+
+                            }, true);
+
+                            listItem.addEventListener('mouseup', function (e) {
+                                // On mouse up, we know it is no longer a longpress
+                                clearTimeout(delay);
+                                window.open("plug1on");
+                            });
+
+                            listItem.addEventListener('mouseout', function (e) {
+                                clearTimeout(delay);
+
+                            });
+                        }
+                    }());
+                </script>
+
+
+                <button id="plug" class="plug2c"><i class="fa w3-xxlarge">&#xf1e6;</i>Plug 2 </button>
+                <script>
+
+                    (function () {
+
+                        var delay;
+
+                        var longpress = 500;
+
+                        var listItems = document.getElementsByClassName('plug2c');
+
+                        var listItem;
+
+                        for (var i = 0, j = listItems.length; i < j; i++) {
+                            listItem = listItems[i];
+
+                            listItem.addEventListener('mousedown', function (e) {
+                                var _this = this;
+                                delay = setTimeout(check, longpress);
+
+                                function check() {
+                                    _this.classList.add('is-selected');
+                                    window.open("plug2off");
+                                }
+
+                            }, true);
+
+                            listItem.addEventListener('mouseup', function (e) {
+                                // On mouse up, we know it is no longer a longpress
+                                clearTimeout(delay);
+                                window.open("plug2on");
+                            });
+
+                            listItem.addEventListener('mouseout', function (e) {
+                                clearTimeout(delay);
+
+                            });
+                        }
+                    }());
+                </script>
+            </center>
+        </div>
+
+        <div id="lightlevel">
+            <i id="tempi" class="fa w3-xxlarge">&#xf0eb;<h2 id="tempw">Light Level</h2></i>
+            <center>
+                <h1 id="temprs1">
+
+                </h1>
+            </center>
+        </div>
+
+        <div id="member">
+            <i id="tempi" class="fa w3-xxlarge">&#xf0c0;<h2 id="tempw">AT Room Now</h2></i>
+            <center>
+                <h1 id="temprs1">
+
+                </h1>
+            </center>
+        </div>
+
+        <div id="helpbar">
+            <i id="tempi" class="fa w3-xlarge">&#xf059;<h2 id="tempw"></h2></i>
+            <i id="tempi" class="fa w3-xlarge">&#xf013;<h2 id="tempw"></h2></i>
+            <i id="tempi" class="fa w3-xlarge">&#xf2bd;<h2 id="tempw"></h2></i>
+        </div>
+
+</body>
+<style>
+    body {
+        background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(136, 136, 136));
+    }
+
+    #name {
+        color: rgb(59, 59, 59);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        margin-left: 200px;
+        margin-top: -65px;
+        font-size: 25px;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 160px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: rgb(119, 0, 255);
+        overflow-x: hidden;
+        padding-top: 20px;
+        margin-top: 30px;
+        border-radius: 0px 50px;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #ffffff;
+        display: block;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    #back {
+        border: none;
+        border-radius: 10px;
+        background-color: rgb(119, 0, 255);
+        font-size: 25px;
+        color: #ffff;
+        margin-top: 40px;
+        cursor: pointer;
+    }
+
+    #back:hover {
+        color: rgb(182, 182, 182);
+    }
+
+    #devices {
+        border: none;
+        border-radius: 10px;
+        background-color: rgb(119, 0, 255);
+        font-size: 25px;
+        color: #ffff;
+        margin-top: 40px;
+        cursor: pointer;
+    }
+
+    #devices:hover {
+        color: rgb(133, 133, 133);
+    }
+
+    #temp {
+
+        font-size: 24px;
+        background-image: linear-gradient(to right, rgb(67, 80, 255), rgb(253, 62, 62));
+        width: 400px;
+        height: 130px;
+        border-radius: 30px;
+
+    }
+
+    #tempw {
+        margin-top: 5px;
+        margin-left: 0px;
+        font-size: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #tempi {
+        margin-top: 20px;
+        margin-left: 10px;
+    }
+
+    #temp1 {
+
+        font-size: 24px;
+        background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(8, 144, 255));
+        width: 400px;
+        height: 130px;
+        border-radius: 30px;
+
+        margin-top: 40px;
+    }
+
+    #temp2 {
+
+        font-size: 24px;
+        background-image: linear-gradient(to right, rgb(255, 255, 255), rgb(255, 156, 8));
+        width: 400px;
+        height: 130px;
+        border-radius: 30px;
+
+        margin-top: 40px;
+    }
+
+    #temprs {
+        margin-top: 10px;
+        position: relative;
+        top: -50px;
+    }
+
+    #temprs1 {
+        margin-top: 10px;
+        margin-left: 15px;
+        position: relative;
+        top: -90px;
+        font-size: 45px;
+    }
+
+    #buttons {
+        height: 100%;
+        width: 350px;
+        background-color: white;
+        position: relative;
+        top: -470px;
+        left: 780px;
+        border-radius: 30px;
+
+    }
+
+    #buttons1 {
+        height: 100%;
+        width: 300px;
+        background-color: white;
+        position: relative;
+        top: -810px;
+        left: 450px;
+        border-radius: 30px;
+
+    }
+
+    #buttonon {
+        width: 150px;
+        height: 150px;
+        margin-top: 10px;
+        margin-left: 10px;
+        border-radius: 20px;
+        margin-bottom: 10px;
+        background-color: rgb(140, 0, 255);
+        color: white;
+        cursor: pointer;
+        border: none;
+    }
+
+    #buttonon1 {
+        width: 150px;
+        height: 150px;
+        margin-top: 10px;
+        margin-left: 10px;
+        border-radius: 20px;
+        margin-bottom: 10px;
+        background-color: rgb(140, 0, 255);
+        color: white;
+        cursor: pointer;
+        border: none;
+    }
+
+    #buttonon:focus {
+        background-color: rgb(255, 0, 0);
+    }
+
+    #buttonon1:hover {
+        background-color: rgb(76, 0, 255);
+    }
+
+    #buttonon1:focus {
+        background-color: rgb(255, 0, 0);
+    }
+
+    #buttonon:hover {
+        background-color: rgb(76, 0, 255);
+    }
+
+    #plug {
+        background-color: rgb(255, 187, 0);
+        width: 130px;
+        height: 100px;
+        margin-top: 12px;
+        margin-bottom: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        color: white;
+        border: none;
+    }
+
+    #plug:hover {
+        background-color: rgb(255, 94, 0);
+    }
+
+    #buttons2 {
+        height: 130px;
+        width: 300px;
+        background-color: white;
+        position: relative;
+        top: -770px;
+        left: 450px;
+        border-radius: 30px;
+
+    }
+
+    #member {
+        height: 100px;
+        width: 350px;
+        position: relative;
+        top: -836px;
+        left: 790px;
+        border-radius: 30px;
+
+        background-color: rgb(135, 252, 1);
+    }
+
+    #lightlevel {
+        position: relative;
+        top: -736px;
+        left: 450px;
+        background-image: linear-gradient(to right, rgb(229, 255, 0), rgb(255, 99, 8));
+        height: 100px;
+        width: 310px;
+        border-radius: 30px;
+
+    }
+
+    #helpbar {
+        position: relative;
+        top: -1400px;
+        left: 1000px;
+    }
+
+    @media only screen and (max-width:800px) {
+
+
+
+        #name {
+
+
+            margin-left: 200px;
+            margin-top: 0px;
+            font-size: 5%;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 17%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            margin-top: 30px;
+
+        }
+
+
+        #back {
+
+            font-size: 15px;
+
+            margin-top: 40px;
+
+
+        }
+
+
+
+        #devices {
+
+            font-size: 15px;
+
+            margin-top: 40px;
+
+        }
+
+
+
+        #temp {
+
+            font-size: 17px;
+
+            width: 90%;
+            height: 90px;
+
+            margin-left: -30px;
+        }
+
+        #tempw {
+            margin-top: 5px;
+            margin-left: 0px;
+            font-size: 20px;
+
+        }
+
+        #tempi {
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+
+        #temp1 {
+
+            font-size: 17px;
+
+            width: 90%;
+            height: 90px;
+
+            margin-left: -30px;
+            margin-top: 20px;
+        }
+
+        #temp2 {
+
+            font-size: 24px;
+
+            width: 90%;
+            height: 90px;
+            border-radius: 30px;
+            margin-left: -30px;
+            margin-top: 20px;
+        }
+
+        #temprs {
+            margin-top: 10px;
+            margin-left: 85px;
+            position: relative;
+            top: -80px;
+        }
+
+        #temprs1 {
+            margin-top: 10px;
+            margin-left: 15px;
+            position: relative;
+            top: -90px;
+            font-size: 45px;
+        }
+
+        #buttons {
+            height: 100%;
+            width: 100%;
+
+            position: relative;
+            top: 400px;
+            left: -50px;
+
+
+        }
+
+        #buttons1 {
+            height: 100%;
+            width: 90%;
+
+            position: relative;
+            top: -120px;
+            left: -30px;
+            border-radius: 30px;
+
+        }
+
+        #buttonon {
+            width: 45%;
+            height: 150px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        #buttonon1 {
+            width: 50%;
+            height: 150px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+
+
+        #plug {
+
+            width: 45%;
+            height: 100px;
+            margin-top: 12px;
+            margin-left: 6px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            font-size: 20px;
+        }
+
+
+
+        #buttons2 {
+            height: 130px;
+            width: 100%;
+
+            position: relative;
+            top: 240px;
+            left: -50px;
+
+
+        }
+
+        #member {
+            height: 90px;
+            width: 90%;
+            position: relative;
+            top: -610px;
+            left: -30px;
+
+
+
+        }
+
+        #lightlevel {
+            position: relative;
+            top: -625px;
+            left: -30px;
+
+            height: 90px;
+            width: 90%;
+            border-radius: 30px;
+
+        }
+
+        #helpbar {
+
+            display: none;
+        }
+
+    }
+
+    @media only screen and (max-width:500px) {
+
+
+
+        #name {
+
+            margin-left: 100px;
+            margin-top: 0px;
+            font-size: 5%;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 17%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+
+
+        #back {
+
+            font-size: 15px;
+            margin-top: 40px;
+
+
+        }
+
+
+        #devices {
+
+
+            font-size: 15px;
+            margin-top: 40px;
+
+        }
+
+
+
+        #temp {
+
+            font-size: 17px;
+            width: 90%;
+            height: 90px;
+            margin-left: -5px;
+        }
+
+        #tempw {
+            margin-top: 5px;
+            margin-left: 0px;
+            font-size: 20px;
+
+        }
+
+        #tempi {
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+
+        #temp1 {
+
+            font-size: 17px;
+
+            width: 90%;
+            height: 90px;
+
+            margin-left: -5px;
+            margin-top: 20px;
+        }
+
+        #temp2 {
+
+            font-size: 24px;
+
+            width: 90%;
+            height: 90px;
+
+            margin-left: -5px;
+            margin-top: 20px;
+        }
+
+        #temprs {
+            margin-top: 10px;
+            margin-left: 85px;
+            position: relative;
+            top: -80px;
+        }
+
+        #temprs1 {
+            margin-top: 10px;
+            margin-left: 15px;
+            position: relative;
+            top: -90px;
+            font-size: 45px;
+        }
+
+        #buttons {
+            height: 100%;
+            width: 100%;
+
+            position: relative;
+            top: 400px;
+            left: -20px;
+
+
+        }
+
+        #buttons1 {
+            height: 100%;
+            width: 90%;
+
+            position: relative;
+            top: -120px;
+            left: 0px;
+
+
+        }
+
+        #buttonon {
+            width: 45%;
+            height: 150px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        #buttonon1 {
+            width: 50%;
+            height: 150px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+
+
+        #plug {
+
+            width: 45%;
+            height: 100px;
+            margin-top: 12px;
+            margin-left: 6px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            font-size: 20px;
+        }
+
+
+        #buttons2 {
+            height: 130px;
+            width: 100%;
+            position: relative;
+            top: 240px;
+            left: -20px;
+
+
+        }
+
+        #member {
+            height: 90px;
+            width: 90%;
+            position: relative;
+            top: -610px;
+            left: -5px;
+            border-radius: 30px;
+        }
+
+        #lightlevel {
+            position: relative;
+            top: -625px;
+            left: -5px;
+            height: 90px;
+            width: 90%;
+        }
+
+        #helpbar {
+
+            display: none;
+        }
+
+    }
+
+    @media only screen and (max-width:300px) {
+
+
+
+        #name {
+
+            margin-left: 100px;
+            margin-top: 0px;
+            font-size: 5%;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 17%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            padding-top: 20px;
+            margin-top: 30px;
+
+        }
+
+
+        #back {
+
+            border-radius: 10px;
+            font-size: 15px;
+            margin-top: 40px;
+        }
+
+
+
+        #devices {
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            margin-top: 40px;
+
+        }
+
+
+
+        #temp {
+
+            font-size: 17px;
+
+            width: 90%;
+            height: 90px;
+
+            margin-left: -5px;
+        }
+
+        #tempw {
+            margin-top: 5px;
+            margin-left: 0px;
+            font-size: 20px;
+
+        }
+
+        #tempi {
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+
+        #temp1 {
+
+            font-size: 17px;
+
+            width: 90%;
+            height: 90px;
+
+            margin-left: -5px;
+            margin-top: 20px;
+        }
+
+        #temp2 {
+
+            font-size: 24px;
+
+            width: 90%;
+            height: 90px;
+
+            margin-left: -5px;
+            margin-top: 20px;
+        }
+
+        #temprs {
+            margin-top: 10px;
+            margin-left: 85px;
+            position: relative;
+            top: -80px;
+        }
+
+        #temprs1 {
+            margin-top: 10px;
+            margin-left: 15px;
+            position: relative;
+            top: -90px;
+            font-size: 45px;
+        }
+
+        #buttons {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            top: 400px;
+            left: -20px;
+
+
+        }
+
+        #buttons1 {
+            height: 100%;
+            width: 90%;
+
+            position: relative;
+            top: -120px;
+            left: 0px;
+
+
+        }
+
+        #buttonon {
+            width: 45%;
+            height: 150px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+
+
+            font-size: 20px;
+        }
+
+        #buttonon1 {
+            width: 50%;
+            height: 150px;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+
+            cursor: pointer;
+            border: none;
+            font-size: 20px;
+        }
+
+
+
+        #plug {
+
+            width: 45%;
+            height: 100px;
+            margin-top: 12px;
+            margin-left: 6px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+
+            font-size: 20px;
+        }
+
+
+
+        #buttons2 {
+            height: 130px;
+            width: 100%;
+
+            position: relative;
+            top: 240px;
+            left: -20px;
+
+
+        }
+
+        #member {
+            height: 90px;
+            width: 90%;
+            position: relative;
+            top: -610px;
+            left: -5px;
+
+
+
+        }
+
+        #lightlevel {
+            position: relative;
+            top: -625px;
+            left: -5px;
+
+            height: 90px;
+            width: 90%;
+
+
+        }
+
+        #helpbar {
+
+            display: none;
+        }
+
+    }
+</style>
+
+</html>
